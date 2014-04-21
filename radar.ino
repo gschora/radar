@@ -27,7 +27,7 @@ void setup()
 }
 
 int val;
-int freq;
+int freq = 0;
 
 void loop()
 {
@@ -46,7 +46,8 @@ void loop()
         // arm_rfft_fast_instance_f32 fft_inst;
         // arm_rfft_fast_init_f32(&fft_inst, fftLen);
         // arm_rfft_fast_f32(&fft_inst,inSamples,outSamples,0,1);
-        freq = (int)(magnitudes[1]/1000);
+        freq = 0;
+        getHighestFrequency();
         
 
         samplingBegin();
@@ -58,9 +59,19 @@ void loop()
 
 }
 
+void getHighestFrequency(){
+
+	for (int i = 1; i < FFT_SIZE/2; ++i) {
+		int m = (int)magnitudes[i]/1000;
+		if (m > freq){
+			freq = m;
+		}
+	}
+}
+
 void radarLoop(){
 	Serial.println(freq);
-	delay(100);
+	delay(250);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
